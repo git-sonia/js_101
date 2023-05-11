@@ -5,16 +5,10 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function askQuestions() {
-  prompt('What is your loan amount?');
-  let loanAmount = readline.question();
-
-  prompt('What is your loan duration in years?');
-  let loanDurationYears = readline.question();
-
-  prompt('What is your APR as a decimal?');
-  let annualPercentageRate = readline.question();
-  return [loanAmount, loanDurationYears, annualPercentageRate];
+function isInvalidNumber(num) {
+  return Number.isNaN(Number(num)) ||
+    Number(num) < 0 ||
+    num.trim() === '';
 }
 
 function calculateMonthlyInterestRate(loanAmount, loanDurationMonths,
@@ -26,7 +20,26 @@ function calculateMonthlyInterestRate(loanAmount, loanDurationMonths,
   return monthlyPayment.toFixed(2);
 }
 
-let [loanAmount, loanDurationYears, annualPercentageRate] = askQuestions();
+prompt('What is your loan amount?');
+let loanAmount = readline.question();
+while (isInvalidNumber(loanAmount)) {
+  prompt('Must enter a positive number');
+  loanAmount = readline.question();
+}
+
+prompt('What is your loan duration in years?');
+let loanDurationYears = readline.question();
+while (isInvalidNumber(loanDurationYears)) {
+  prompt('Must enter a positive number');
+  loanAmount = readline.question();
+}
+
+prompt('What is your APR as a decimal?');
+let annualPercentageRate = readline.question();
+while (isInvalidNumber(annualPercentageRate)) {
+  prompt('Must enter a positive number');
+  loanAmount = readline.question();
+}
 
 let loanDurationMonths = MONTHS_IN_YEAR * loanDurationYears;
 
