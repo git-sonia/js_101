@@ -10,19 +10,29 @@ function askQuestions() {
   let loanAmount = readline.question();
 
   prompt('What is your loan duration in years?');
-  let loanDuration = readline.question();
+  let loanDurationYears = readline.question();
 
-  prompt('What is your APR?');
+  prompt('What is your APR as a decimal?');
   let annualPercentageRate = readline.question();
   return [loanAmount, loanDurationYears, annualPercentageRate];
 }
 
-function convertToMonths(time) {
-  return time * MONTHS_IN_YEAR;
+function calculateMonthlyInterestRate(loanAmount, loanDurationMonths,
+  monthlyInterestRate) {
+  let monthlyPayment = loanAmount *
+    (monthlyInterestRate / (1 - Math.pow((1 +
+      monthlyInterestRate), (-loanDurationMonths))));
+
+  return monthlyPayment.toFixed(2);
 }
 
 let [loanAmount, loanDurationYears, annualPercentageRate] = askQuestions();
 
-let loanDurationMonths = convertToMonths(loanDurationYears);
+let loanDurationMonths = MONTHS_IN_YEAR * loanDurationYears;
 
+let monthlyInterestRate = annualPercentageRate / MONTHS_IN_YEAR;
 
+let mortgage = calculateMonthlyInterestRate(loanAmount, loanDurationMonths,
+  monthlyInterestRate);
+
+console.log(`Your mortgage is ${mortgage}`);
