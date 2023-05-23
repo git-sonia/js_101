@@ -13,3 +13,7 @@ while (!VALID_CHOICES.includes(choice)) {
   choice = readline.question();
 }
 
+let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
+let computerChoice = VALID_CHOICES[randomIndex];
+
+prompt(`You chose ${choice}, computer chose ${computerChoice}`);
